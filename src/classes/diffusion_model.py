@@ -89,6 +89,13 @@ class DiffusionModel(nn.Module):
             raise ValueError(f"NaN detected at step {t}: mu or sigma is NaN.\nmu: {mu}\nsigma: {sigma}")
 
         return mu, sigma, samples
+    
+    def select_action(self, state, t):
+        mean, std = self.policy(state, t)
+        dist = torch.distributions.Normal(mean, std)
+        action = dist.sample().clamp(-1.0, 1.0)  # Sample and clamp the action in one step
+        log_prob = dist.log_prob(action).sum()  # Compute log probability directly
+        return action, log_prob, mean, std
 
     def sample(self, size: int, device: Optional[str] = None) -> torch.Tensor:
         """
