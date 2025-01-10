@@ -14,7 +14,7 @@ class DiffusionModel(nn.Module):
             device (str): Device to run computations on.
         """
         super().__init__()
-        self.model = model
+        self.policy = model
         self.device = device
         self.n_steps = n_steps
 
@@ -76,7 +76,7 @@ class DiffusionModel(nn.Module):
             return None, None, xt
 
         # Predict mean and log-variance from the model
-        mu_logvar = self.model(xt, t)
+        mu_logvar = self.policy(xt, t)
         mu, logvar = mu_logvar.chunk(2, dim=1)
         sigma = torch.sqrt(torch.exp(logvar))
 
