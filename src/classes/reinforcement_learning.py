@@ -4,6 +4,7 @@ import logging
 import numpy as np
 from typing import List, Tuple, Optional, Callable
 from dataclasses import dataclass
+from sklearn.datasets import make_swiss_roll
 
 @dataclass
 class TrainingConfig:
@@ -94,6 +95,12 @@ class BatchReinforcementLearningTrainer:
         # Compute policy gradient loss for all trajectories
         policy_loss = -rewards.unsqueeze(1) * log_probs.sum(dim=1)
         return policy_loss.mean()
+
+    def sample_batch(self, size):
+        x, _ = make_swiss_roll(size)
+        x = x[:, [2, 0]] / 10.0 * np.array([1, -1])
+        return x[:, 0].reshape((1, size))
+
 
     def train_epoch(self, epoch: int) -> Tuple[float, float]:
         """Train for one epoch using batch updates."""
