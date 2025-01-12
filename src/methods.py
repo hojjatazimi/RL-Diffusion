@@ -3,6 +3,7 @@ from tqdm import tqdm
 import numpy as np
 from typing import Tuple, List, Callable
 import logging
+from sklearn.datasets import make_swiss_roll
 
 def train_rl(
     model: torch.nn.Module,
@@ -117,3 +118,8 @@ def train_rl(
         raise
         
     return training_loss, rewards
+
+def sample_batch(size):
+    x, _ = make_swiss_roll(size)
+    x = x[:, [2, 0]] / 10.0 * np.array([1, -1])
+    return x[:, 0].reshape((1, size))
