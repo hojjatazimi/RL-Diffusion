@@ -9,6 +9,7 @@ def train_rl(
     model: torch.nn.Module,
     optimizer: torch.optim.Optimizer,
     reward_function: Callable,
+    weights,
     nb_epochs: int = 150_000,
     batch_size: int = 6_000,
     device: str = 'cpu',
