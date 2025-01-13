@@ -124,3 +124,16 @@ def sample_batch(size):
     x, _ = make_swiss_roll(size)
     x = x[:, [2, 0]] / 10.0 * np.array([1, -1])
     return x[:, 0].reshape((1, size))
+
+def reward_function(features, weights, bias=None):
+    # Calculate the linear combination
+    logits = torch.matmul(features, weights)
+
+    # If bias is provided, add it to the logits
+    if bias is not None:
+        logits += bias
+
+    # Apply the sigmoid function to get the probabilities
+    probabilities = torch.sigmoid(logits)
+
+    return probabilities
