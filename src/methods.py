@@ -158,3 +158,9 @@ def init_model(device, state_size, action_size):
     policy_net = PolicyNetwork(state_size, action_size, device=device).to(device)
     model = DiffusionModel(policy_net, device=device)
     return model
+
+def load_model(model, path):
+    checkpoint = torch.load(path)
+    model.load_state_dict(checkpoint['model_state_dict'])
+    model.eval()
+    return model
