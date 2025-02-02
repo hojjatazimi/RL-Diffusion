@@ -5,6 +5,8 @@ from typing import Tuple, List, Callable
 import logging
 from sklearn.datasets import make_swiss_roll
 import os
+from classes.policy_network import PolicyNetwork
+from classes.diffusion_model import DiffusionModel
 
 def train_rl(
     model: torch.nn.Module,
@@ -151,3 +153,8 @@ def list_files_in_directory(directory):
         for file in files:
             file_list.append(os.path.join(root, file))
     return file_list
+
+def init_model(device, state_size, action_size):
+    policy_net = PolicyNetwork(state_size, action_size, device=device).to(device)
+    model = DiffusionModel(policy_net, device=device)
+    return model
