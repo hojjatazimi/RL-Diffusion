@@ -4,6 +4,7 @@ import numpy as np
 from typing import Tuple, List, Callable
 import logging
 from sklearn.datasets import make_swiss_roll
+import os
 
 def train_rl(
     model: torch.nn.Module,
@@ -137,3 +138,16 @@ def reward_function(features, weights, bias=None):
     probabilities = torch.sigmoid(logits)
 
     return probabilities
+
+def list_files_in_directory(directory):
+    """
+    List all files in the given directory, including their full paths.
+
+    :param directory: Path to the directory
+    :return: List of full file paths
+    """
+    file_list = []
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            file_list.append(os.path.join(root, file))
+    return file_list
