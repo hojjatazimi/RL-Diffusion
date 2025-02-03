@@ -73,7 +73,7 @@ class DiffusionModel(nn.Module):
         t = t - 1  # Convert to zero-based indexing
         if t == 0:
             # Final step, no further noise addition
-            return None, None, xt
+            return xt
 
         # Predict mean and log-variance from the model
         
@@ -87,7 +87,7 @@ class DiffusionModel(nn.Module):
         if torch.isnan(mean).any() or torch.isnan(std).any():
             raise ValueError(f"NaN detected at step {t}: mu or sigma is NaN.\nmu: {mean}\nsigma: {std}")
 
-        return mean, std, x_prev
+        return mean
     
     def select_action(self, state, t):
         mean, std = self.policy(state, t)
