@@ -76,19 +76,18 @@ class DiffusionModel(nn.Module):
             return None, None, xt
 
         # Predict mean and log-variance from the model
-        mu_logvar = self.policy(xt, t)
-        mu, logvar = mu_logvar.chunk(2, dim=1)
-        sigma = torch.sqrt(torch.exp(logvar))
-        x_prev = mu
+        
+        mean, std = self.policy(xt, t)
+        x_prev = mean
         # Sample new data point
-        noise = torch.randn_like(xt)
-        samples = mu + noise * sigma
+        # noise = torch.randn_like(xt)
+        
 
         # Sanity check for NaN values
-        if torch.isnan(mu).any() or torch.isnan(sigma).any():
-            raise ValueError(f"NaN detected at step {t}: mu or sigma is NaN.\nmu: {mu}\nsigma: {sigma}")
+        if torch.isnan(mean).any() or torch.isnan(std).any():
+            raise ValueError(f"NaN detected at step {t}: mu or sigma is NaN.\nmu: {mean}\nsigma: {std}")
 
-        return mu, sigma, x_prev
+        return mean, std, x_prev
     
     def select_action(self, state, t):
         mean, std = self.policy(state, t)
