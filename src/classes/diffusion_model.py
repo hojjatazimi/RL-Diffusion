@@ -79,7 +79,7 @@ class DiffusionModel(nn.Module):
         mu_logvar = self.policy(xt, t)
         mu, logvar = mu_logvar.chunk(2, dim=1)
         sigma = torch.sqrt(torch.exp(logvar))
-
+        x_prev = mu
         # Sample new data point
         noise = torch.randn_like(xt)
         samples = mu + noise * sigma
@@ -88,7 +88,7 @@ class DiffusionModel(nn.Module):
         if torch.isnan(mu).any() or torch.isnan(sigma).any():
             raise ValueError(f"NaN detected at step {t}: mu or sigma is NaN.\nmu: {mu}\nsigma: {sigma}")
 
-        return mu, sigma, samples
+        return mu, sigma, x_prev
     
     def select_action(self, state, t):
         mean, std = self.policy(state, t)
