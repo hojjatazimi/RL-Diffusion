@@ -2,6 +2,8 @@
 
 This repository contains the implementation of the project described in the work *Towards Explaining Decoded Neurofeedback with Explainable Reinforcement Learning* by Hojjat Azimi Asrari. The project explores integrating Explainable Reinforcement Learning (XRL) techniques into Decoded Neurofeedback (DecNef) studies, employing advanced methods like Denoising Diffusion Policy Optimization (DDPO) to improve interpretability and efficacy.
 
+![2D Representation of the activation patterns in the latent space of the Policy Network](./results/Imgs/sub-01/rdm/RL/2d_plot_animation_fps_8.gif)
+
 ## Overview
 
 Decoded Neurofeedback (DecNef) is a technique that leverages real-time fMRI data to modulate neural activity patterns unconsciously. While DecNef has demonstrated potential for clinical and cognitive neuroscience applications, its variability and black-box nature pose challenges.
